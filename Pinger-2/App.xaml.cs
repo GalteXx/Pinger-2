@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pinger_2.Service;
 using Pinger_2.ViewModel;
 using System.Windows;
 
@@ -11,22 +12,25 @@ namespace Pinger_2
 
         public App()
         {
-            AppHost = Host.CreateDefaultBuilder()
-                .ConfigureServices((context, services) =>
-                {
-                    services.AddSingleton<Service.IAddressConfigService, Service.AddressConfigService>();
-                    services.AddTransient<Service.IPingService, Service.ICMPPinger>();
-                    services.AddTransient<DisplayWindowViewModel>();
-                    services.AddTransient<DisplayWindow>();
-                })
-                .Build();
+
         }
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            await AppHost!.StartAsync();
+            var configService = await AddressConfigService.CreateAsync(); // eager initialization goes brrr
+            AppHost = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddSingleton<IAddressConfigService>(configService);
+                    services.AddTransient<IPingService, ICMPPinger>();
+                    services.AddTransient<DisplayWindowViewModel>();
+                    services.AddTransient<DisplayWindow>();
+                })
+                .Build();
+
             var startUpForm = AppHost.Services.GetRequiredService<DisplayWindow>();
             startUpForm.Show();
+
             base.OnStartup(e);
         }
 

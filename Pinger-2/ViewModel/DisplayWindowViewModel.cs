@@ -1,14 +1,16 @@
-﻿using Pinger_2.Service;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Pinger_2.Service;
+using System.Collections.ObjectModel;
 
 namespace Pinger_2.ViewModel
 {
-    public class DisplayWindowViewModel
+    public class DisplayWindowViewModel : ObservableObject
     {
-        private readonly IPingService _pingService;
+        public ObservableCollection<IPingService> _pingServices;
 
-        public DisplayWindowViewModel(IPingService service)
+        public DisplayWindowViewModel()
         {
-            _pingService = service;
+            _pingServices = [];
         }
     }
 }

@@ -3,14 +3,14 @@ namespace Pinger_2.Service
 {
     public class ICMPPinger : IPingService
     {
-        IAddressConfigService _addressConfigService;
+        private string _ipAddress;
         public Task<float> Ping()
         {
             throw new NotImplementedException();
         }
-        public ICMPPinger()
+        public ICMPPinger(string ipAddress)
         {
-            _addressConfigService = new AddressConfigService();
+            _ipAddress = ipAddress;
         }
     }
 }
