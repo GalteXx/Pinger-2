@@ -6,10 +6,10 @@ namespace Pinger_2.Service
 {
     internal class AddressConfigService : IAddressConfigService
     {
-        public static Task<AddressConfigService> CreateAsync()
+        public static async Task<AddressConfigService> CreateAsync()
         {
             var service = new AddressConfigService();
-            return service.InitializeAsync();
+            return await service.InitializeAsync();
         }
 
         private async Task<AddressConfigService> InitializeAsync()
