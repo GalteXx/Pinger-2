@@ -11,14 +11,14 @@ namespace Pinger_2.UserControls
         }
 
 
-        public string Ping
+        public TimeSpan Ping
         {
-            get { return (string)GetValue(PingProperty); }
+            get { return (TimeSpan)GetValue(PingProperty); }
             set { SetValue(PingProperty, value); }
         }
-        public string TimeSinceLastRequest
+        public TimeSpan TimeSinceLastRequest
         {
-            get { return (string)GetValue(TimeSinceLastRequestProperty); }
+            get { return (TimeSpan)GetValue(TimeSinceLastRequestProperty); }
             set { SetValue(TimeSinceLastRequestProperty, value); }
         }
         public string AddressName
@@ -31,15 +31,22 @@ namespace Pinger_2.UserControls
             get { return (string)GetValue(DomainOrIPProperty); }
             set { SetValue(DomainOrIPProperty, value); }
         }
+        public TimeSpan TimeToRed
+        {
+            get { return (TimeSpan)GetValue(TimeToRedProperty); }
+            set { SetValue(TimeToRedProperty, value); }
+        }
 
+        public static readonly DependencyProperty TimeToRedProperty =
+            DependencyProperty.Register("TimeToRed", typeof(TimeSpan), typeof(PingDisplay));
         public static readonly DependencyProperty DomainOrIPProperty =
             DependencyProperty.Register("DomainOrIP", typeof(string), typeof(PingDisplay));
         public static readonly DependencyProperty AddressNameProperty =
             DependencyProperty.Register("AddressName", typeof(string), typeof(PingDisplay));
         public static readonly DependencyProperty TimeSinceLastRequestProperty =
-            DependencyProperty.Register("TimeSinceLastRequest", typeof(string), typeof(PingDisplay));
+            DependencyProperty.Register("TimeSinceLastRequest", typeof(TimeSpan), typeof(PingDisplay));
         public static readonly DependencyProperty PingProperty =
-            DependencyProperty.Register("Ping", typeof(string), typeof(PingDisplay));
+            DependencyProperty.Register("Ping", typeof(TimeSpan), typeof(PingDisplay));
 
 
 

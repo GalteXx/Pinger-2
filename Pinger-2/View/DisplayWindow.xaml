@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pinger_2"
+        xmlns:UserControls="clr-namespace:Pinger_2.UserControls"
         mc:Ignorable="d"
         Height="450" Width="300">
     <Grid>
@@ -11,7 +12,6 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -26,8 +26,16 @@
                     Grid.Column="2" Background="#201F24" Foreground="White" BorderBrush="#201F24"/>
         </Grid>
 
-        <ListView Grid.Row="1">
-            
+        <ListView Grid.Row="1" ItemsSource="{Binding PingViewModels}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <UserControls:PingDisplay AddressName="{Binding Name}"
+                                              DomainOrIP="{Binding DomainOrAddress}"
+                                              Ping="{Binding Ping}"
+                                              TimeSinceLastRequest="{Binding TimeSinceLastRequest}"
+                        />
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
     </Grid>

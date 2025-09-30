@@ -5,9 +5,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Pinger_2.UserControls"
+    xmlns:convertes="clr-namespace:Pinger_2.Convertes"
 	mc:Ignorable="d" 
     x:Name="self"
     Height="100" Width="250" Background="{StaticResource PrimaryBrush}">
+    <UserControl.Resources>
+        <convertes:PingToColorConverter x:Key="PingToColorConverter"/>
+        <convertes:PingToStringConverter x:Key="PingToStringConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -26,12 +31,16 @@
                    Text="{Binding ElementName=self, Path=DomainOrIP}"
                    Grid.Column="1" Grid.Row="1" Margin="3"/>
         <TextBlock d:Text="Ping" 
-                   Text="{Binding ElementName=self, Path=Ping}"
+                   Text="{Binding ElementName=self, Path=Ping,
+            Converter={StaticResource PingToStringConverter}}"
                    Grid.Column="1" Grid.Row="2" Margin="3"/>
         <TextBlock d:Text="TimeSinceLastRequest"
-                   Text="{Binding ElementName=self, Path=TimeSinceLastRequest}"
+                   Text="{Binding ElementName=self, Path=TimeSinceLastRequest, 
+            Converter={StaticResource PingToStringConverter}}"
                    Grid.Column="1" Grid.Row="3" Margin="3"/>
         <Rectangle d:Fill="GreenYellow" 
-                   Margin="3" Grid.RowSpan="4" />
+                   Margin="3" Grid.RowSpan="1" Grid.Row="2" />
+        <Rectangle d:Fill="GreenYellow"
+                   Margin="3" Grid.RowSpan="1" Grid.Row="3" />
     </Grid>	
 </UserControl>

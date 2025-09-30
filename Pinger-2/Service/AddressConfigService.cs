@@ -14,7 +14,7 @@ namespace Pinger_2.Service
 
         private async Task<AddressConfigService> InitializeAsync()
         {
-            _targetIPAddresses = [];
+            
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "Geckosystem", "Pinger");
 
@@ -24,10 +24,14 @@ namespace Pinger_2.Service
             await ParseConfigAsync(doc);
             return this;
         }
+        public AddressConfigService()
+        {
+            _targetIPAddresses = [];
+        }
 
-        public IEnumerable<IPAddress> TargetIPAddresses => _targetIPAddresses;
+        public IEnumerable<AddressConfig> TargetIPAddresses => _targetIPAddresses;
 
-        List<IPAddress> _targetIPAddresses;
+        List<AddressConfig> _targetIPAddresses;
         private const string _configName = "config.xml"; // Hardcode goes brrr
 
         private async Task<XDocument> LoadOrCreateConfigAsync(string path)
@@ -47,7 +51,7 @@ namespace Pinger_2.Service
             catch (Exception)
             {
                 // Maybe once I host my domain...
-                config = XDocument.Parse("<Config>\r\n\t<TargetIPs>\r\n\t\t<TargetIP Domain=\"example.com\"/>\r\n\t\t<TargetIP IP=\"127.0.0.1\"/>\r\n\t</TargetIPs>\r\n</Config>");
+                config = XDocument.Parse("<Config>\r\n\t<TargetIPs>\r\n\t\t<TargetIP Name=\"Example\" Domain=\"example.com\"/>\r\n\t\t<TargetIP Name=\"Loopback\" IP=\"127.0.0.1\"/>\r\n\t</TargetIPs>\r\n</Config>");
                 await config.SaveAsync(configFile, SaveOptions.None, CancellationToken.None);
             }
             configFile.Close();
@@ -61,8 +65,12 @@ namespace Pinger_2.Service
                 doc.RemoveNodes();
                 doc.Add(new XElement("Config"));
                 doc.Element("Config")!.Add(new XElement("TargetIPs"));
-                doc.Element("Config")!.Element("TargetIPs")!.Add(new XElement("TargetIP", new XAttribute("Domain", "example.com")));
-                doc.Element("Config")!.Element("TargetIPs")!.Add(new XElement("TargetIP", new XAttribute("IP", "128.0.0.1")));
+                doc.Element("Config")!.Element("TargetIPs")!.Add(new XElement("TargetIP", 
+                    new XAttribute("Name", "Example"), 
+                    new XAttribute("Domain", "example.com")));
+                doc.Element("Config")!.Element("TargetIPs")!.Add(new XElement("TargetIP", 
+                    new XAttribute("Name", "Loopback"),
+                    new XAttribute("IP", "128.0.0.1")));
                 doc.Save(fileStream);
             }
 
@@ -71,6 +79,12 @@ namespace Pinger_2.Service
 
             foreach (var el in targets.Elements("TargetIP").ToList())
             {
+                if(el.Attribute("Name") == null)
+                {
+                    el.Add(new XAttribute("Name", ""));
+                    continue;
+                }
+
                 var ipAttr = el.Attribute("IP")?.Value;
                 var domainAttr = el.Attribute("Domain")?.Value;
 
@@ -157,14 +171,20 @@ namespace Pinger_2.Service
 
                 if (!string.IsNullOrWhiteSpace(ipAttr) && IPAddress.TryParse(ipAttr, out var ip))
                 {
-                    _targetIPAddresses.Add(ip);
+                    _targetIPAddresses.Add(
+                        new AddressConfig(el.Attribute("Name")!.Value,
+                                          ip.ToString(),
+                                          ip));
                 }
                 else if (!string.IsNullOrWhiteSpace(domainAttr))
                 {
                     try
                     {
                         var resolved = await Dns.GetHostAddressesAsync(domainAttr);
-                        _targetIPAddresses.Add(resolved[0]); //to be made configurable
+                        _targetIPAddresses.Add(
+                            new AddressConfig(el.Attribute("Name")!.Value,
+                                              el.Attribute("Domain")!.Value,
+                                              resolved[0])); //to be made configurable
                     }
                     catch
                     { }

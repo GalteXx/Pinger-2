@@ -10,6 +10,7 @@ namespace Pinger_2
         {
             InitializeComponent();
             DataContext = vm;
+            vm.StartPingingAll();
         }
     }
 }

@@ -2,6 +2,9 @@
 {
     public interface IPingService
     {
-        public Task<float> Ping();
+        event EventHandler<DateTime> PingSent;
+        event EventHandler<TimeSpan> PingReceived;
+        void Start();
+        void Stop();
     }
 }
