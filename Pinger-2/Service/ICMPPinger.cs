@@ -10,7 +10,7 @@ namespace Pinger_2.Service
         private readonly IPAddress _ipAddress;
         private CancellationTokenSource? _cts;
 
-        public event EventHandler<TimeSpan> PingReceived;
+        public TimeSpan PingWaitingSpan => throw new NotImplementedException();
         public event EventHandler<DateTime> PingSent;
 
         public ICMPPinger(IPAddress ipAddress)
