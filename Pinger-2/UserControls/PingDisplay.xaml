@@ -39,8 +39,22 @@
             Converter={StaticResource PingToStringConverter}}"
                    Grid.Column="1" Grid.Row="3" Margin="3"/>
         <Rectangle d:Fill="GreenYellow" 
-                   Margin="3" Grid.RowSpan="1" Grid.Row="2" />
-        <Rectangle d:Fill="GreenYellow"
-                   Margin="3" Grid.RowSpan="1" Grid.Row="3" />
+                   Margin="3" Grid.RowSpan="1" Grid.Row="2">
+            <Rectangle.Fill>
+                <MultiBinding Converter="{StaticResource PingToColorConverter}">
+                    <Binding ElementName="self" Path="Ping"/>
+                    <Binding ElementName="self" Path="TimeToRed"/>
+                </MultiBinding>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle d:Fill="GreenYellow" 
+                   Margin="3" Grid.RowSpan="1" Grid.Row="3">
+            <Rectangle.Fill>
+                <MultiBinding Converter="{StaticResource PingToColorConverter}">
+                    <Binding ElementName="self" Path="Ping"/>
+                    <Binding ElementName="self" Path="TimeToRed"/>
+                </MultiBinding>
+            </Rectangle.Fill>
+        </Rectangle>
     </Grid>	
 </UserControl>

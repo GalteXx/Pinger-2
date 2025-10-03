@@ -33,6 +33,7 @@
                                               DomainOrIP="{Binding DomainOrAddress}"
                                               Ping="{Binding Ping}"
                                               TimeSinceLastRequest="{Binding TimeSinceLastRequest}"
+                                              TimeToRed="0:0:0.1"
                         />
                 </DataTemplate>
             </ListView.ItemTemplate>

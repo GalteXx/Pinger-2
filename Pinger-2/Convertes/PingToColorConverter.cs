@@ -4,18 +4,18 @@ using System.Windows.Media;
 
 namespace Pinger_2.Convertes
 {
-    class PingToColorConverter : IValueConverter
+    class PingToColorConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not TimeSpan Value || parameter is not double maxPing)
+            if (values[0] is not TimeSpan timeSpan || values[1] is not TimeSpan maxPing) 
                 throw new ArgumentException("Invalid value or parameter type");
 
-            if(Value == TimeSpan.FromMilliseconds(-1d))
+            if(timeSpan == TimeSpan.FromMilliseconds(-1d))
                 return targetType == typeof(Color) ? Colors.Gray 
                     : new SolidColorBrush(Colors.Gray);
 
-            var clamValue = Math.Clamp(Value.TotalMilliseconds/maxPing, 0, 1);
+            var clamValue = Math.Clamp(timeSpan.TotalMilliseconds/maxPing.TotalMilliseconds, 0, 1);
 
             byte r, g, b = 0;
 
@@ -38,8 +38,7 @@ namespace Pinger_2.Convertes
             else
                 throw new ArgumentException("Invalid target type");
         }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

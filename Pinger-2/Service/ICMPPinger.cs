@@ -11,6 +11,7 @@ namespace Pinger_2.Service
         private CancellationTokenSource? _cts;
         private DateTime _lastRequest = DateTime.MinValue;
         private bool _updateSuppressed = false;
+        private TimeSpan _pingAwaitingTime;
 
         public event EventHandler<TimeSpan> PingReceived;
 
@@ -18,9 +19,14 @@ namespace Pinger_2.Service
         {
             get
             {
-                if (_lastRequest == DateTime.MinValue || _updateSuppressed)
-                    return TimeSpan.Zero;
-                return DateTime.Now - _lastRequest;
+                if(_updateSuppressed)
+                    return _pingAwaitingTime;
+
+                if (_lastRequest == DateTime.MinValue)
+                    return TimeSpan.FromMilliseconds(-1);
+
+                _pingAwaitingTime = DateTime.Now -  _lastRequest;
+                return _pingAwaitingTime;
             }
         }
 
@@ -77,7 +83,6 @@ namespace Pinger_2.Service
         private void OnPingReceived(TimeSpan e)
         {
             PingReceived.Invoke(this, e);
-            _lastRequest = DateTime.Now;
             _updateSuppressed = true;
         }
 
