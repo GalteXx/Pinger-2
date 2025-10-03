@@ -19,18 +19,9 @@ namespace Pinger_2.ViewModel
                 Ping = e;
                 TimeSinceLastRequest = TimeSpan.Zero;
                 UpdateTimer();
-                _updateSuppressed = false;
-            };
-            _pingService.PingSent += (sender, e) =>
-            {
-                _lastRequest = e;
-                TimeSinceLastRequest = TimeSpan.Zero;
-                _updateSuppressed = true;
-                UpdateTimer();
             };
         }
 
-        private bool _updateSuppressed = false;
 
         [ObservableProperty]
         private string name;
@@ -55,9 +46,7 @@ namespace Pinger_2.ViewModel
 
         public void UpdateTimer() //so long it works
         {
-            if (_lastRequest == DateTime.MinValue || _updateSuppressed)
-                return;
-            TimeSinceLastRequest = DateTime.Now - _lastRequest;
+            TimeSinceLastRequest = _pingService.PingWaitingSpan;
         }
 
     }

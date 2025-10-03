@@ -9,15 +9,26 @@ namespace Pinger_2.Service
 
         private readonly IPAddress _ipAddress;
         private CancellationTokenSource? _cts;
+        private DateTime _lastRequest = DateTime.MinValue;
+        private bool _updateSuppressed = false;
 
-        public TimeSpan PingWaitingSpan => throw new NotImplementedException();
-        public event EventHandler<DateTime> PingSent;
+        public event EventHandler<TimeSpan> PingReceived;
+
+        public TimeSpan PingWaitingSpan
+        {
+            get
+            {
+                if (_lastRequest == DateTime.MinValue || _updateSuppressed)
+                    return TimeSpan.Zero;
+                return DateTime.Now - _lastRequest;
+            }
+        }
+
 
         public ICMPPinger(IPAddress ipAddress)
         {
             _ipAddress = ipAddress ?? throw new ArgumentNullException(nameof(ipAddress));
             PingReceived = new EventHandler<TimeSpan>((sender, e) => { });
-            PingSent = new EventHandler<DateTime>((sender, e) => { });
         }
 
         public void Start()
@@ -27,7 +38,6 @@ namespace Pinger_2.Service
             _cts = new CancellationTokenSource();
             _ = RunPingLoopAsync(_cts.Token);
         }
-
         public void Stop()
         {
             _cts?.Cancel();
@@ -43,19 +53,32 @@ namespace Pinger_2.Service
                 try
                 {
                     var rep = ping.SendPingAsync(_ipAddress, 2000);
-                    PingSent.Invoke(this, DateTime.Now);
+                    OnPingSent();
                     var reply = await rep;
                     if (reply.Status == IPStatus.Success)
-                        PingReceived?.Invoke(this, TimeSpan.FromMilliseconds(reply.RoundtripTime));
+                        OnPingReceived(TimeSpan.FromMilliseconds(reply.RoundtripTime));
                     else
-                        PingReceived?.Invoke(this, TimeSpan.FromMilliseconds(-1d)); //why is there no NaN for TimeSpan
+                        OnPingReceived(TimeSpan.FromMilliseconds(-1d)); //why is there no NaN for TimeSpan
                 }
                 catch
                 {
-                    PingReceived?.Invoke(this, TimeSpan.FromMilliseconds(-1d));
+                    OnPingReceived(TimeSpan.FromMilliseconds(-1d));
                 }
                 await Task.Delay(DELAY_REQUEST_MS, ct);
             }
+        }
+
+        private void OnPingSent()
+        {
+            _lastRequest = DateTime.Now;
+            _updateSuppressed = false;
+        }
+
+        private void OnPingReceived(TimeSpan e)
+        {
+            PingReceived.Invoke(this, e);
+            _lastRequest = DateTime.Now;
+            _updateSuppressed = true;
         }
 
         public void Dispose()

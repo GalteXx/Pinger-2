@@ -2,7 +2,7 @@
 {
     public interface IPingService
     {
-        event EventHandler<DateTime> PingSent;
+        TimeSpan PingWaitingSpan { get; }
         event EventHandler<TimeSpan> PingReceived;
         void Start();
         void Stop();
