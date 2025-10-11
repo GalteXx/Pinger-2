@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pinger_2"
         xmlns:UserControls="clr-namespace:Pinger_2.UserControls"
-        mc:Ignorable="d"
+        mc:Ignorable="d" 
         Height="450" Width="300">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,15 +18,19 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Name="DragField" Width="Auto" Fill="#FF2D2E37" />
+            <Rectangle Name="DragField" Width="Auto" Fill="#FF2D2E37" 
+                       MouseLeftButtonDown="DragField_MouseLeftButtonDown"/>
             <Button Content="-" 
                     Name="MinimizeFormButton" Grid.Column="1" 
-                    Background="#201F24" Foreground="White" BorderBrush="#201F24"/>
+                    Background="#201F24" Foreground="White" BorderBrush="#201F24"
+                    Click="MinimizeFormButton_Click"/>
             <Button Content="X" Name="CloseFormButton" 
-                    Grid.Column="2" Background="#201F24" Foreground="White" BorderBrush="#201F24"/>
+                    Grid.Column="2" Background="#201F24" Foreground="White" BorderBrush="#201F24"
+                    Click="CloseFormButton_Click"/>
         </Grid>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding PingViewModels}">
+        <ListView Grid.Row="1" ItemsSource="{Binding PingViewModels}"
+                  Background="{StaticResource BackgroundBrush}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <UserControls:PingDisplay AddressName="{Binding Name}"

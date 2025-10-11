@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace Pinger_2.UserControls
 {
-    public partial class PingDisplay : UserControl
+    public partial class PingDisplay : System.Windows.Controls.UserControl
     {
         public PingDisplay()
         {

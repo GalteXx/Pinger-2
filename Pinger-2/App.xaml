@@ -5,10 +5,11 @@
     <Application.Resources>
         <Color x:Key="PrimaryColor">#1f2024</Color>
         <Color x:Key="SecondaryColor">White</Color>
-        <Color x:Key="BackgroundColor">White</Color>
+        <Color x:Key="BackgroundColor">#292a2e</Color>
 
         <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
         <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}" />
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
 
         <Style TargetType="Button">
             <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
