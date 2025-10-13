@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pinger_2"
         xmlns:UserControls="clr-namespace:Pinger_2.UserControls"
         mc:Ignorable="d" 
-        Height="450" Width="300">
+        Height="450" Width="300" WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>

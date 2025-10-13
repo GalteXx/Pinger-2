@@ -7,15 +7,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Model\**" />
-    <EmbeddedResource Remove="Model\**" />
-    <None Remove="Model\**" />
-    <Page Remove="Model\**" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
@@ -27,7 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\icon.png" />
+    <Resource Include="Assets\icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

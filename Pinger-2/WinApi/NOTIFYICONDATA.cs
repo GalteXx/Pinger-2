@@ -11,5 +11,7 @@ namespace Pinger_2.WinApi
         public int uFlags;
         public int uCallbackMessage;
         public IntPtr hIcon;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string szTip;
     }
 }
