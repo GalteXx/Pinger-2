@@ -3,24 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Pinger_2">
     <Application.Resources>
-        <Color x:Key="PrimaryColor">#1f2024</Color>
+        <Color x:Key="PrimaryColor">#1f1c21</Color>
         <Color x:Key="SecondaryColor">White</Color>
-        <Color x:Key="BackgroundColor">#292a2e</Color>
+        <Color x:Key="BackgroundColor">#121014</Color>
+        <Color x:Key="SelectionHighlightColor">DarkSlateGray</Color>
+        <Color x:Key="SelectionTextColor">MidnightBlue</Color>
 
         <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
         <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}" />
         <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+        <SolidColorBrush x:Key="SelectionHighlightBrush" Color="{StaticResource SelectionHighlightColor}"/>
 
-        <Style TargetType="Button">
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                     Color="{StaticResource SelectionHighlightColor}" />
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                     Color="{StaticResource SelectionTextColor}" />
+        <Style TargetType="Button" x:Key="PrimaryButtonStyle">
             <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="Padding" Value="8,4" />
-            <Setter Property="Margin" Value="4" />
+            <Setter Property="BorderThickness" Value="1"/>
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource SecondaryBrush}" />
             <Setter Property="FontSize" Value="14" />
         </Style>
-        
+
     </Application.Resources>
 </Application>

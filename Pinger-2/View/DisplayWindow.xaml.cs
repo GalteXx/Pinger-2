@@ -59,5 +59,10 @@ namespace Pinger_2
                 Hide();
             base.OnStateChanged(e);
         }
+
+        private void ListView_SelectionChanged()
+        {
+
+        }
     }
 }

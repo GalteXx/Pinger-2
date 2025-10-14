@@ -11,7 +11,6 @@ namespace Pinger_2.ViewModel
         {
             name = _name;
             domainOrAddress = _addressOrDomain;
-            _lastRequest = DateTime.MinValue;
 
             _pingService = new ICMPPinger(address);
             _pingService.PingReceived += (sender, e) =>
@@ -32,7 +31,6 @@ namespace Pinger_2.ViewModel
         [ObservableProperty]
         private TimeSpan timeSinceLastRequest;
 
-        private DateTime _lastRequest;
         private IPingService _pingService;
 
         public void StartPinging()

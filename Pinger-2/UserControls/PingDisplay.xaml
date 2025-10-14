@@ -51,7 +51,7 @@
                    Margin="3" Grid.RowSpan="1" Grid.Row="3">
             <Rectangle.Fill>
                 <MultiBinding Converter="{StaticResource PingToColorConverter}">
-                    <Binding ElementName="self" Path="Ping"/>
+                    <Binding ElementName="self" Path="TimeSinceLastRequest"/>
                     <Binding ElementName="self" Path="TimeToRed"/>
                 </MultiBinding>
             </Rectangle.Fill>
