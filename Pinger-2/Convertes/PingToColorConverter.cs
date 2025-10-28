@@ -8,14 +8,14 @@ namespace Pinger_2.Convertes
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is not TimeSpan timeSpan || values[1] is not TimeSpan maxPing) 
+            if (values[0] is not TimeSpan timeSpan || values[1] is not TimeSpan maxPing)
                 throw new ArgumentException("Invalid value or parameter type");
 
-            if(timeSpan == TimeSpan.FromMilliseconds(-1d))
-                return targetType == typeof(Color) ? Colors.Gray 
+            if (timeSpan == TimeSpan.FromMilliseconds(-1d))
+                return targetType == typeof(Color) ? Colors.Gray
                     : new SolidColorBrush(Colors.Gray);
 
-            var clamValue = Math.Clamp(timeSpan.TotalMilliseconds/maxPing.TotalMilliseconds, 0, 1);
+            var clamValue = Math.Clamp(timeSpan.TotalMilliseconds / maxPing.TotalMilliseconds, 0, 1);
 
             byte r, g, b = 0;
 
@@ -31,9 +31,9 @@ namespace Pinger_2.Convertes
                 r = 255;
                 g = (byte)(255 * (1 - t));
             }
-            if(targetType == typeof(Color))
+            if (targetType == typeof(Color))
                 return Color.FromRgb(r, g, b);
-            else if(targetType == typeof(Brush))
+            else if (targetType == typeof(Brush))
                 return new SolidColorBrush(Color.FromRgb(r, g, b));
             else
                 throw new ArgumentException("Invalid target type");

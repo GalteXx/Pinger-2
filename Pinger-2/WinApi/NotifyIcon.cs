@@ -36,7 +36,7 @@ namespace Pinger_2.WinApi
             _hwndSource = HwndSource.FromHwnd(_windowHandle);
             _hwndSource.AddHook(WndProc);
             var ico = LoadImage(IntPtr.Zero, iconPath, IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
-            if(ico == IntPtr.Zero)
+            if (ico == IntPtr.Zero)
             {
                 throw new Exception($"The Icon could not be loaded with WinApi error: {Marshal.GetLastWin32Error()}");
             }
@@ -48,7 +48,7 @@ namespace Pinger_2.WinApi
                 uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP,
                 uCallbackMessage = WM_TRAYICON,
                 szTip = "Placeholder",
-                hIcon = ico 
+                hIcon = ico
             };
             _notifyIconData.cbSize = Marshal.SizeOf(_notifyIconData);
         }

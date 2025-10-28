@@ -19,13 +19,13 @@ namespace Pinger_2.Service
         {
             get
             {
-                if(_updateSuppressed)
+                if (_updateSuppressed)
                     return _pingAwaitingTime;
 
                 if (_lastRequest == DateTime.MinValue)
                     return TimeSpan.FromMilliseconds(-1);
 
-                _pingAwaitingTime = DateTime.Now -  _lastRequest;
+                _pingAwaitingTime = DateTime.Now - _lastRequest;
                 return _pingAwaitingTime;
             }
         }
@@ -39,7 +39,7 @@ namespace Pinger_2.Service
 
         public void Start()
         {
-            if (_cts != null) 
+            if (_cts != null)
                 return;
             _cts = new CancellationTokenSource();
             _ = RunPingLoopAsync(_cts.Token);

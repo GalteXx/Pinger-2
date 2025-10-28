@@ -14,7 +14,7 @@ namespace Pinger_2.Service
 
         private async Task<AddressConfigService> InitializeAsync()
         {
-            
+
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "Geckosystem", "Pinger");
 
@@ -65,10 +65,10 @@ namespace Pinger_2.Service
                 doc.RemoveNodes();
                 doc.Add(new XElement("Config"));
                 doc.Element("Config")!.Add(new XElement("TargetIPs"));
-                doc.Element("Config")!.Element("TargetIPs")!.Add(new XElement("TargetIP", 
-                    new XAttribute("Name", "Example"), 
+                doc.Element("Config")!.Element("TargetIPs")!.Add(new XElement("TargetIP",
+                    new XAttribute("Name", "Example"),
                     new XAttribute("Domain", "example.com")));
-                doc.Element("Config")!.Element("TargetIPs")!.Add(new XElement("TargetIP", 
+                doc.Element("Config")!.Element("TargetIPs")!.Add(new XElement("TargetIP",
                     new XAttribute("Name", "Loopback"),
                     new XAttribute("IP", "128.0.0.1")));
                 doc.Save(fileStream);
@@ -79,7 +79,7 @@ namespace Pinger_2.Service
 
             foreach (var el in targets.Elements("TargetIP").ToList())
             {
-                if(el.Attribute("Name") == null)
+                if (el.Attribute("Name") == null)
                 {
                     el.Add(new XAttribute("Name", ""));
                     continue;

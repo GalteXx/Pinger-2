@@ -1,8 +1,5 @@
 ﻿using Pinger_2.ViewModel;
 using Pinger_2.WinApi;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 
 namespace Pinger_2
@@ -28,7 +25,7 @@ namespace Pinger_2
 
         private void OnTrayIconLeftButtonClicked()
         {
-            if(WindowState == WindowState.Minimized)
+            if (WindowState == WindowState.Minimized)
             {
                 Show();
                 WindowState = WindowState.Normal;
