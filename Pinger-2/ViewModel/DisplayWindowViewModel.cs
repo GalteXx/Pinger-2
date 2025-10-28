@@ -18,7 +18,7 @@ namespace Pinger_2.ViewModel
             for (int i = 0; i < _addressConfigService.TargetIPAddresses.Count(); i++)
             {
                 var entry = _addressConfigService.TargetIPAddresses.ElementAt(i);
-                var pingVM = new PingViewModel(entry);
+                var pingVM = new PingViewModel(entry.Name, entry.AddressOrDomain, entry.IPAddresse);
                 pingViewModels.Add(pingVM);
             }
             InitializeUpdateTimer();
